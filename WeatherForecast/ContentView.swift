@@ -9,9 +9,52 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        HStack {
-            DayForecast(day: "Mon", isRainy: false, high: 70, low: 50)
-            DayForecast(day: "Tue", isRainy: true, high: 60, low: 40)
+        VStack {
+            WeekForecast(dateRange: "Jan 10 - 17", avgLow: 75, avgHigh: 80)
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    DayForecast(day: "Mon", isRainy: false, high: 70, low: 50)
+                    DayForecast(day: "Tue", isRainy: true, high: 60, low: 40)
+                    DayForecast(day: "Tue", isRainy: true, high: 60, low: 40)
+                    DayForecast(day: "Tue", isRainy: true, high: 60, low: 40)
+                    DayForecast(day: "Tue", isRainy: true, high: 60, low: 40)
+                }
+            }
+        }
+    }
+}
+
+struct WeekForecast: View {
+    let dateRange: String
+    let avgLow: Int
+    let avgHigh: Int
+
+    var avgLowColor: Color {
+        if avgLow < 80 {
+            return .blue
+        } else {
+            return .black
+        }
+    }
+
+    var avgHighColor: Color {
+        if avgHigh > 75 {
+            return .red
+        } else {
+            return .black
+        }
+    }
+
+    var body: some View {
+        VStack {
+            Text(dateRange)
+                .font(.largeTitle)
+            HStack {
+                Text("Average Low: \(avgLow)")
+                    .foregroundStyle(avgLowColor)
+                Text("Average High: \(avgHigh)")
+                    .foregroundStyle(avgHighColor)
+            }
         }
     }
 }
@@ -39,7 +82,7 @@ struct DayForecast: View {
     }
 
     var body: some View {
-        VStack {
+        VStack(spacing: 10) {
             Text(day)
                 .font(.headline)
             Image(systemName: iconName)
@@ -53,6 +96,7 @@ struct DayForecast: View {
                 .foregroundStyle(.secondary)
         }
         .padding()
+
     }
 }
 
